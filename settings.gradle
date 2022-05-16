@@ -1,0 +1,3 @@
+rootProject.name = 'biblioteka'
+
+include("library", "library-webapp")
