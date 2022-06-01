@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import {AuthContext} from "./context/AuthContext";
+import {BrowserRouter as Router, Route} from "react-router-dom";
+import {Header} from "./pages/Header";
+import {Footer} from "./pages/Footer";
+import {MainPage} from "./pages/MainPage";
+import {NavBar} from "./navigation/NavBar";
+
+function NavRoute(path: string, Test: React.Component){
+  return <Route path={path} element={
+    <div>
+      <Header/>
+      <Footer/>
+    </div>
+  }/>;
+}
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  // Auth Context
+  const [user, setUser] = React.useState<string | null>(null)
+  const [token, setToken] = React.useState<string | null>(null)
+  const [roles, setRoles] = React.useState<string[] | null>(null)
+
+  return <div>
+    <AuthContext.Provider value={{user, setUser, token, setToken, roles, setRoles}}>
+      <Router>
+        <NavBar></NavBar>
+      </Router>
+    </AuthContext.Provider>
+  </div>
 }
 
 export default App;
