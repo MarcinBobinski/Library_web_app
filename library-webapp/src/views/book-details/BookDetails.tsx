@@ -1,11 +1,9 @@
 import React from "react";
 
-function BookDetailsPage() {
+export const BookDetails: React.FC = () => {
   return (
     <div>
       Book Details Page
     </div>
   )
 }
-
-export {BookDetailsPage}

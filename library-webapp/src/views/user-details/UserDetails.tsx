@@ -1,9 +1,7 @@
 import React from "react";
 
-function UserProfilePage() {
+export const UserDetails: React.FC = () => {
   return (
     <div>User Profile Page</div>
   )
 }
-
-export {UserProfilePage}

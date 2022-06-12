@@ -1,13 +1,11 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-function NotFoundPage() {
+export const NotFound: React.FC = () => {
   return (
     <div>
       Not Found Page
-      <Link to={""}>HOME</Link>
+      <Link to={"/"}>HOME</Link>
     </div>
   )
 }
-
-export {NotFoundPage}

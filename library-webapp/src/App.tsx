@@ -1,35 +1,43 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
-import {AuthContext} from "./context/AuthContext";
-import {BrowserRouter as Router, Route} from "react-router-dom";
-import {Header} from "./pages/Header";
-import {Footer} from "./pages/Footer";
-import {MainPage} from "./pages/MainPage";
-import {NavBar} from "./navigation/NavBar";
+import {AuthProvider} from "./context/AuthContext";
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
+import {Header} from "./views/header/Header";
+import {Footer} from "./views/footer/Footer";
+import {BookListing} from "./views/book-listing/BookListing";
+import {BookDetails} from "./views/book-details/BookDetails";
+import {UserDetails} from "./views/user-details/UserDetails";
+import {NotFound} from "./views/not-found/NotFound";
+import {Login} from "./views/login/Login";
+import {Register} from "./views/register/Register";
 
-function NavRoute(path: string, Test: React.Component){
-  return <Route path={path} element={
-    <div>
-      <Header/>
-      <Footer/>
-    </div>
-  }/>;
+type WrapperProps = {
+  children: React.ReactNode;
 }
 
+const Wrapper: React.FC<WrapperProps> = ({children}: WrapperProps) => {
+  return <>
+    <Header/>
+    {children}
+    <Footer/>
+  </>
+}
 
 function App() {
-
-  // Auth Context
-  const [user, setUser] = React.useState<string | null>(null)
-  const [token, setToken] = React.useState<string | null>(null)
-  const [roles, setRoles] = React.useState<string[] | null>(null)
-
   return <div>
-    <AuthContext.Provider value={{user, setUser, token, setToken, roles, setRoles}}>
+    <AuthProvider>
       <Router>
-        <NavBar></NavBar>
+        <Routes>
+          <Route path="" element={<Navigate to="/books"/>}></Route>
+          <Route path="/books" element={<Wrapper><BookListing/></Wrapper>}/>
+          <Route path="/book" element={<Wrapper><BookDetails/></Wrapper>}/>
+          <Route path="/user" element={<Wrapper><UserDetails/></Wrapper>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="*" element={<NotFound/>}></Route>
+        </Routes>
       </Router>
-    </AuthContext.Provider>
+    </AuthProvider>
   </div>
 }
 

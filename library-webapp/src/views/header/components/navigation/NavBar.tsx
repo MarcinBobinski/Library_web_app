@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import React from "react";
 
-function NavBar() {
+export const NavBar: React.FC = () => {
   return (
     <>
       <Link to={"/main"}>Main</Link>
@@ -11,5 +11,3 @@ function NavBar() {
     </>
   )
 }
-
-export {NavBar}
