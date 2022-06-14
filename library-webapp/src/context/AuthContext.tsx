@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}: AuthProvid
 export const useAuthContext = () => {
   const context = useContext(AuthContext)
   if (context == null) {
-    // throw exception not in context
+    throw new Error("Auth Context not provided")
   }
   return context
 }

@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 
 export type SearchContent = {
-  searchString: String
+  searchString: string
   setSearchString: (input: string) => void
 }
 
@@ -12,7 +12,7 @@ interface SearchProviderProps {
 }
 
 export const SearchProvider: React.FC<SearchProviderProps> = ({children}: SearchProviderProps) => {
-  const [searchString, setSearchString] = React.useState<String>("")
+  const [searchString, setSearchString] = React.useState<string>("")
 
   return (
     <SearchContext.Provider value={{searchString, setSearchString}}>
@@ -24,7 +24,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({children}: Search
 export const useSearchContext = () => {
   const context = useContext(SearchContext)
   if (context == null) {
-    // throw exception not in context
+    throw new Error("Search Context not provided")
   }
   return context
 }

@@ -10,6 +10,7 @@ import {UserDetails} from "./views/user-details/UserDetails";
 import {NotFound} from "./views/not-found/NotFound";
 import {Login} from "./views/login/Login";
 import {Register} from "./views/register/Register";
+import {SearchProvider} from "./context/SearchContext";
 
 type WrapperProps = {
   children: React.ReactNode;
@@ -24,21 +25,23 @@ const Wrapper: React.FC<WrapperProps> = ({children}: WrapperProps) => {
 }
 
 function App() {
-  return <div>
+  return <>
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="" element={<Navigate to="/books"/>}></Route>
-          <Route path="/books" element={<Wrapper><BookListing/></Wrapper>}/>
-          <Route path="/book" element={<Wrapper><BookDetails/></Wrapper>}/>
-          <Route path="/user" element={<Wrapper><UserDetails/></Wrapper>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="*" element={<NotFound/>}></Route>
-        </Routes>
-      </Router>
+      <SearchProvider>
+        <Router>
+          <Routes>
+            <Route path="" element={<Navigate to="/books"/>}></Route>
+            <Route path="/books" element={<Wrapper><BookListing/></Wrapper>}/>
+            <Route path="/book" element={<Wrapper><BookDetails/></Wrapper>}/>
+            <Route path="/user" element={<Wrapper><UserDetails/></Wrapper>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="*" element={<NotFound/>}></Route>
+          </Routes>
+        </Router>
+      </SearchProvider>
     </AuthProvider>
-  </div>
+  </>
 }
 
 export default App;
