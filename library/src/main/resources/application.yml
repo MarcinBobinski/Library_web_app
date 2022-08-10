@@ -1,1 +1,9 @@
+mongo:
+    user: admin
+    password: admin123
+    db: library
 
+spring:
+    data:
+        mongodb:
+            uri: "mongodb://${mongo.user}:${mongo.password}@localhost:27035/${mongo.db}?authSource=admin"

@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'com.palantir.docker-run' version '0.34.0'
+    id 'com.github.sherter.google-java-format' version '0.9'
 }
 
 group = 'com.example'
@@ -19,13 +21,30 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.2'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.7.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.2'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
+
     compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.6.7'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+dockerRun {
+  name 'mongo-library'
+  image 'mongo:3.6'
+  volumes 'docker/mongo/init_db_users.js':'/docker-entrypoint-initdb.d/init_db_users.js:ro'
+  ports '27035:27017'
+  env 'MONGO_INITDB_DATABASE': 'library', 'MONGO_INITDB_ROOT_PASSWORD': 'admin123', 'MONGO_INITDB_ROOT_USERNAME': 'admin'
+  daemonize true
+  arguments '--restart=always'
+}
+
+googleJavaFormat {
+    options style: 'GOOGLE'
 }
