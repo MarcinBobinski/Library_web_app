@@ -1,14 +1,9 @@
 import React from "react";
 import {Col, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {useAuthContext} from "../../../context/AuthContext";
 
 export const Auth = () => {
-  const {credentials} = useAuthContext()
-
-  console.log(credentials)
-
-  if (credentials) {
+  if (false) {
     return (<>Logged</>)
   } else {
     return (<Row className="align-items-center">
