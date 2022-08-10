@@ -1,4 +1,6 @@
-class UserService{
+class UserService {
   constructor() {
   }
 }
+
+export {}

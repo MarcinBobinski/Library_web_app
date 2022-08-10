@@ -1,5 +1,6 @@
-
-class AuthService{
+class AuthService {
   constructor() {
   }
 }
+
+export {}
