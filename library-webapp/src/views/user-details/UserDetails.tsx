@@ -1,6 +1,6 @@
 import React from "react";
 
-export const UserDetails: React.FC = () => {
+export const UserDetails = () => {
   return (
     <div>User Profile Page</div>
   )

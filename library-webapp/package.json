@@ -4,7 +4,13 @@
   "private": true,
   "dependencies": {
     "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.9.3",
+    "@mantine/core": "^5.1.1",
+    "@mantine/form": "^5.1.1",
+    "@mantine/hooks": "^5.1.1",
+    "@mantine/modals": "^5.1.1",
+    "@mantine/notifications": "^5.1.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",

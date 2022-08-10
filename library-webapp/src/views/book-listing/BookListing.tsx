@@ -1,6 +1,6 @@
 import React from "react";
 
-export const BookListing: React.FC = () => {
+export const BookListing = () => {
   return (
     <div>
       Book Listing Page

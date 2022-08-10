@@ -3,7 +3,7 @@ import {Col, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {useAuthContext} from "../../../context/AuthContext";
 
-export const Auth: React.FC = () => {
+export const Auth = () => {
   const {credentials} = useAuthContext()
 
   console.log(credentials)

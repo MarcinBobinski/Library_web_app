@@ -11,7 +11,7 @@ interface SearchProviderProps {
   children?: React.ReactNode
 }
 
-export const SearchProvider: React.FC<SearchProviderProps> = ({children}: SearchProviderProps) => {
+export const SearchProvider = ({children}: SearchProviderProps) => {
   const [searchString, setSearchString] = React.useState<string>("")
 
   return (

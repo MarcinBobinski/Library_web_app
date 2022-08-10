@@ -1,6 +1,6 @@
 
 
-export const ListingDisplay: React.FC = () => {
+export const ListingDisplay = () => {
   return (
     <>
 

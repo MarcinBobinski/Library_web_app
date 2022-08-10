@@ -19,7 +19,7 @@ interface AuthProviderProps {
   children?: React.ReactNode
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({children}: AuthProviderProps) => {
+export const AuthProvider = ({children}: AuthProviderProps) => {
   const [credentials, setCredentials] = React.useState<Credentials | null>(null)
 
   const login = (username: string, password: string) => {

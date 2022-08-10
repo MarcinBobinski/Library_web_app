@@ -2,7 +2,7 @@ import React from "react";
 import {Col, Row} from "react-bootstrap";
 import {useSearchContext} from "../../../context/SearchContext";
 
-export const BookSearch: React.FC = () => {
+export const BookSearch = () => {
   const {searchString, setSearchString} = useSearchContext()
   return (
     <Row className="align-items-center">

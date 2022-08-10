@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Register: React.FC = () => {
+export const Register = () => {
   return (
     <div>Register page</div>
   )

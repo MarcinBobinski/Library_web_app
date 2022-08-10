@@ -19,7 +19,7 @@ interface FiltersProviderProps {
   children?: React.ReactNode
 }
 
-export const FiltersProvider: React.FC<FiltersProviderProps> = ({children}: FiltersProviderProps) => {
+export const FiltersProvider = ({children}: FiltersProviderProps) => {
   const initFilters = {fromYear: null, toYear: null, categories: []}
   const setFiltersImpl = (input: Filters) => {
 

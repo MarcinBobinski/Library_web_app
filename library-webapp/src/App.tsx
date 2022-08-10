@@ -11,12 +11,13 @@ import {NotFound} from "./views/not-found/NotFound";
 import {Login} from "./views/login/Login";
 import {Register} from "./views/register/Register";
 import {SearchProvider} from "./context/SearchContext";
+import {MantineProvider} from "@mantine/core";
 
 type WrapperProps = {
   children: React.ReactNode;
 }
 
-const Wrapper: React.FC<WrapperProps> = ({children}: WrapperProps) => {
+const Wrapper = ({children}: WrapperProps) => {
   return <>
     <Header/>
     {children}
@@ -26,21 +27,23 @@ const Wrapper: React.FC<WrapperProps> = ({children}: WrapperProps) => {
 
 function App() {
   return <>
-    <AuthProvider>
-      <SearchProvider>
-        <Router>
-          <Routes>
-            <Route path="" element={<Navigate to="/books"/>}/>
-            <Route path="/books" element={<Wrapper><BookListing/></Wrapper>}/>
-            <Route path="/book" element={<Wrapper><BookDetails/></Wrapper>}/>
-            <Route path="/user" element={<Wrapper><UserDetails/></Wrapper>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="*" element={<NotFound/>}/>
-          </Routes>
-        </Router>
-      </SearchProvider>
-    </AuthProvider>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <AuthProvider>
+        <SearchProvider>
+          <Router>
+            <Routes>
+              <Route path="" element={<Navigate to="/books"/>}/>
+              <Route path="/books" element={<Wrapper><BookListing/></Wrapper>}/>
+              <Route path="/book" element={<Wrapper><BookDetails/></Wrapper>}/>
+              <Route path="/user" element={<Wrapper><UserDetails/></Wrapper>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/register" element={<Register/>}/>
+              <Route path="*" element={<NotFound/>}/>
+            </Routes>
+          </Router>
+        </SearchProvider>
+      </AuthProvider>
+    </MantineProvider>
   </>
 }
 

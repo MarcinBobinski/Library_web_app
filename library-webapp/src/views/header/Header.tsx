@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {BookSearch} from "./components/BookSearch";
 import {Auth} from "./components/Auth";
 
-export const Header: React.FC = () => {
+export const Header = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container className="justify-content-between">
