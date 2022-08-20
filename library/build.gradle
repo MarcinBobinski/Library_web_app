@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'com.palantir.docker-run' version '0.34.0'
+    id 'com.github.sherter.google-java-format' version '0.9'
 }
 
 group = 'com.example'
@@ -19,13 +21,33 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.2'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.7.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.2'
+
+    // Postgresql
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.2'
+    runtimeOnly 'org.postgresql:postgresql:42.3.6'
+
+
     compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.6.7'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+dockerRun {
+    name 'postgresql-library'
+    image 'postgres'
+    volumes 'docker/postgresql/init.sql':'/docker-entrypoint-initdb.d/init.sql:ro'
+    ports '5432:5432'
+    env 'POSTGRES_DB': 'library', 'POSTGRES_PASSWORD': 'admin123', 'POSTGRES_USER': 'admin'
+    daemonize true
+    arguments '--restart=always'
+}
+
+googleJavaFormat {
+    options style: 'GOOGLE'
 }

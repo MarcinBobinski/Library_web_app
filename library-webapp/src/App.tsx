@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
+import {Header} from "./views/header/Header";
+import {Footer} from "./views/footer/Footer";
+import {BookListing} from "./views/book-listing/BookListing";
+import {BookDetails} from "./views/book-details/BookDetails";
+import {UserDetails} from "./views/user-details/UserDetails";
+import {NotFound} from "./views/not-found/NotFound";
+import {Login} from "./views/login/Login";
+import {Register} from "./views/register/Register";
+import {MantineProvider} from "@mantine/core";
+
+type WrapperProps = {
+  children: React.ReactNode;
+}
+
+const Wrapper = ({children}: WrapperProps) => {
+  return <>
+    <Header/>
+    {children}
+    <Footer/>
+  </>
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <Router>
+        <Routes>
+          <Route path="" element={<Navigate to="/books"/>}/>
+          <Route path="/books" element={<Wrapper><BookListing/></Wrapper>}/>
+          <Route path="/book" element={<Wrapper><BookDetails/></Wrapper>}/>
+          <Route path="/user" element={<Wrapper><UserDetails/></Wrapper>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="*" element={<NotFound/>}/>
+        </Routes>
+      </Router>
+    </MantineProvider>
+  </>
 }
 
 export default App;

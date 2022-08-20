@@ -1,1 +1,19 @@
+postgresql:
+    user: admin
+    password: admin123
+    db: library
+    port: 5432
 
+
+spring:
+    datasource:
+        url: "jdbc:postgresql://localhost:${postgresql.port}/${postgresql.db}"
+        username: "${postgresql.user}"
+        password: "${postgresql.password}"
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
