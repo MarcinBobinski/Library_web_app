@@ -25,7 +25,10 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.7.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.2'
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
+    // Postgresql
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.2'
+    runtimeOnly 'org.postgresql:postgresql:42.3.6'
+
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -36,13 +39,13 @@ tasks.named('test') {
 }
 
 dockerRun {
-  name 'mongo-library'
-  image 'mongo:3.6'
-  volumes 'docker/mongo/init_db_users.js':'/docker-entrypoint-initdb.d/init_db_users.js:ro'
-  ports '27035:27017'
-  env 'MONGO_INITDB_DATABASE': 'library', 'MONGO_INITDB_ROOT_PASSWORD': 'admin123', 'MONGO_INITDB_ROOT_USERNAME': 'admin'
-  daemonize true
-  arguments '--restart=always'
+    name 'postgresql-library'
+    image 'postgres'
+    volumes 'docker/postgresql/init.sql':'/docker-entrypoint-initdb.d/init.sql:ro'
+    ports '5432:5432'
+    env 'POSTGRES_DB': 'library', 'POSTGRES_PASSWORD': 'admin123', 'POSTGRES_USER': 'admin'
+    daemonize true
+    arguments '--restart=always'
 }
 
 googleJavaFormat {
