@@ -2,12 +2,16 @@ postgresql:
     user: admin
     password: admin123
     db: library
+    url: localhost
     port: 5432
 
+security:
+    jwtSecret: aAytVTmPoqgZxnnQBTKz-qQf20mnENDrpPZgbo2cy7xD_BjC3nVRMFauEDK7i4sH-mhhJGUxHzHpKP2aeSdMcg
+    jwtExpirationMs: 1 #600000 # 10 min
 
 spring:
     datasource:
-        url: "jdbc:postgresql://localhost:${postgresql.port}/${postgresql.db}"
+        url: "jdbc:postgresql://${postgresql.url}:${postgresql.port}/${postgresql.db}"
         username: "${postgresql.user}"
         password: "${postgresql.password}"
     jpa:

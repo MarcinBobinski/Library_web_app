@@ -1,4 +1,4 @@
-package com.example.library.adapter.postgresql;
+package com.example.library.adapter.postgresql.Book;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
