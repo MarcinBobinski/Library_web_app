@@ -1,6 +1,0 @@
-class AuthService {
-  constructor() {
-  }
-}
-
-export {}

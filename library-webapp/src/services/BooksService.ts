@@ -1,6 +1,0 @@
-class BooksService {
-  constructor() {
-  }
-}
-
-export {}
