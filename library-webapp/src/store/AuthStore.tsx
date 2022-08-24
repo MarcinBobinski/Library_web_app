@@ -1,6 +1,7 @@
+import React from "react";
 import {makeAutoObservable, runInAction} from "mobx";
 import {fetchCredentials} from "../api/Auth/FetchCredentials";
-import {showNotification} from "@mantine/notifications";
+import {registerUser} from "../api/Auth/Register";
 
 interface AuthCredentials {
   token: string
@@ -10,17 +11,27 @@ interface AuthCredentials {
   roles: string[]
 }
 
+const localStorageCredentialsKey = "credentials"
+
 export class AuthStore {
   credentials: AuthCredentials | null = null;
 
   constructor() {
     makeAutoObservable(this);
+    runInAction(()=>{
+      const credentials = localStorage.getItem(localStorageCredentialsKey)
+      if(credentials == null){
+        this.credentials = null
+      } else {
+        this.credentials = JSON.parse(credentials)
+      }
+    })
   }
 
-  async login(user: string, password: string): Promise<void> {
+  async login(user: string, password: string): Promise<boolean> {
     try {
-      const credentials = await fetchCredentials(user, password)
-      await runInAction(() => {
+      await runInAction(async () => {
+        const credentials = await fetchCredentials(user, password)
         this.credentials = {
           token: credentials.type + " " + credentials.token,
           id: credentials.id,
@@ -29,20 +40,22 @@ export class AuthStore {
           roles: credentials.roles
         }
       })
-    } catch (e){
-      showNotification({
-        title: 'Login Error',
-        message: 'There was an error',
-        color: 'red',
-        autoClose: 5000
-      })
-    }
+      localStorage.setItem(localStorageCredentialsKey, JSON.stringify(this.credentials))
+    } catch (e){}
+
+    return Promise.resolve( this.credentials != null);
   }
 
   async logout(): Promise<void>{
     runInAction(()=>{
       this.credentials = null;
     })
+    localStorage.removeItem(localStorageCredentialsKey)
+  }
+
+  async registerUser(username: string, email: string, password: string): Promise<void> {
+       await registerUser(username, email, password);
+       await this.login(username, password)
   }
 
   isAuthenticated(): boolean {

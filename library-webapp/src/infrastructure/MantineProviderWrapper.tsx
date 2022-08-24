@@ -22,7 +22,7 @@ export const MantineProviderWrapper = ({children}: MantineProviderWrapperProps) 
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{colorScheme}} withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider>
+        <NotificationsProvider limit={5} position={"top-right"}>
           {children}
         </NotificationsProvider>
       </MantineProvider>

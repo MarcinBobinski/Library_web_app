@@ -1,13 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import {Group, Button, Menu} from "@mantine/core";
 import {observer} from "mobx-react";
 import {useStore} from "../../../../context/store.context";
 import {IconLogout, IconUser, IconUserCircle} from "@tabler/icons";
+import {LoginModal} from "../modal/LoginModal";
+import {RegisterModal} from "../modal/RegisterModal";
 
 const AuthHeaderView =  () => {
   const {authStore} = useStore()
-
   const credentials = {...authStore.credentials}
+
+  const [registerOpened, registerOpenedSet] = useState(false)
+  const [loginOpened, loginOpenedSet] = useState(false)
 
   if (authStore.isAuthenticated()) {
     return (<Group>
@@ -27,10 +31,14 @@ const AuthHeaderView =  () => {
     </Group>)
   } else {
     return (
-      <Group>
-        <Button onClick={() => {authStore.login("Marcin", "haslo1")}}>Zaloguj</Button>
-        <Button>Zarejestruj</Button>
-      </Group>
+      <>
+        <LoginModal opened={loginOpened} setOpened={loginOpenedSet} authStore={authStore}/>
+        <RegisterModal opened={registerOpened} setOpened={registerOpenedSet} authStore={authStore}/>
+        <Group>
+          <Button onClick={() => {loginOpenedSet(true)}}>Zaloguj</Button>
+          <Button onClick={() => {registerOpenedSet(true)}}>Zarejestruj</Button>
+        </Group>
+      </>
     )
   }
 }
