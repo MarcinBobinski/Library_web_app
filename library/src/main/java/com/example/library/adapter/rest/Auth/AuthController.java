@@ -86,6 +86,7 @@ public class AuthController {
         return ResponseEntity.ok(new MessagePayload("User registered successfully!"));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/signup/Admin")
     public ResponseEntity<?> registerAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
         ResponseEntity<?> invalidRequest = validateSignupRequest(signUpRequest);
@@ -127,22 +128,5 @@ public class AuthController {
                 .body(new MessagePayload("Error: Email is already in use!"));
         }
         return null;
-    }
-
-    @PostMapping("/test/all")
-    public ResponseEntity<?> test() {
-        return ResponseEntity.ok(new MessagePayload("all"));
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    @PostMapping("/test/user")
-    public ResponseEntity<?> test1() {
-        return ResponseEntity.ok(new MessagePayload("user"));
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/test/admin")
-    public ResponseEntity<?> test2() {
-        return ResponseEntity.ok(new MessagePayload("admin"));
     }
 }

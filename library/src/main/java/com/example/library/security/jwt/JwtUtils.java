@@ -32,6 +32,7 @@ public class JwtUtils {
             .signWith(SignatureAlgorithm.HS512, jwtSecret.getBytes())
             .compact();
     }
+
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parserBuilder()
             .setSigningKey(jwtSecret.getBytes())
@@ -40,6 +41,7 @@ public class JwtUtils {
             .getBody()
             .getSubject();
     }
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder()
