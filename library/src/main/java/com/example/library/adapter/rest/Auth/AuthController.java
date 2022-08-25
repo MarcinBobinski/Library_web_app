@@ -34,99 +34,88 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    PasswordEncoder encoder;
-    @Autowired
-    JwtUtils jwtUtils;
+  @Autowired AuthenticationManager authenticationManager;
+  @Autowired UserRepository userRepository;
+  @Autowired RoleRepository roleRepository;
+  @Autowired PasswordEncoder encoder;
+  @Autowired JwtUtils jwtUtils;
 
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
+  @PostMapping("/signin")
+  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    Authentication authentication =
+        authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),
-                loginRequest.getPassword()
-            )
-        );
+                loginRequest.getUsername(), loginRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtUtils.generateJwtToken(authentication);
+    String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        List<String> roles = userDetails.getAuthorities().stream()
+    List<String> roles =
+        userDetails.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.toList());
 
-        return ResponseEntity.ok(
-            new JwtPayload(
-                jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles
-            )
-        );
-    }
+    return ResponseEntity.ok(
+        new JwtPayload(
+            jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+  }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        ResponseEntity<?> invalidRequest = validateSignupRequest(signUpRequest);
-        if(invalidRequest != null) return invalidRequest;
+  @PostMapping("/signup")
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    ResponseEntity<?> invalidRequest = validateSignupRequest(signUpRequest);
+    if (invalidRequest != null) return invalidRequest;
 
-        User user = createUser(signUpRequest, Collections.singletonList(ERole.ROLE_USER));
+    User user = createUser(signUpRequest, Collections.singletonList(ERole.ROLE_USER));
 
-        userRepository.save(user);
-        return ResponseEntity.ok(new MessagePayload("User registered successfully!"));
-    }
+    userRepository.save(user);
+    return ResponseEntity.ok(new MessagePayload("User registered successfully!"));
+  }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/signup/Admin")
-    public ResponseEntity<?> registerAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
-        ResponseEntity<?> invalidRequest = validateSignupRequest(signUpRequest);
-        if(invalidRequest != null) return invalidRequest;
+  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping("/signup/Admin")
+  public ResponseEntity<?> registerAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
+    ResponseEntity<?> invalidRequest = validateSignupRequest(signUpRequest);
+    if (invalidRequest != null) return invalidRequest;
 
-        User user = createUser(signUpRequest, Arrays.asList(ERole.ROLE_USER, ERole.ROLE_ADMIN));
+    User user = createUser(signUpRequest, Arrays.asList(ERole.ROLE_USER, ERole.ROLE_ADMIN));
 
-        userRepository.save(user);
-        return ResponseEntity.ok(new MessagePayload("User registered successfully!"));
-    }
+    userRepository.save(user);
+    return ResponseEntity.ok(new MessagePayload("User registered successfully!"));
+  }
 
-    private User createUser(SignupRequest signUpRequest, List<ERole> roles){
-        User user = new User(
+  private User createUser(SignupRequest signUpRequest, List<ERole> roles) {
+    User user =
+        new User(
             signUpRequest.getUsername(),
             signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword())
-        );
+            encoder.encode(signUpRequest.getPassword()));
 
-        Set<Role> userRoles = roles.stream()
-            .map((role) ->
-                roleRepository.findByName(ERole.ROLE_ADMIN)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."))
-            ).collect(Collectors.toSet());
+    Set<Role> userRoles =
+        roles.stream()
+            .map(
+                (role) ->
+                    roleRepository
+                        .findByName(ERole.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found.")))
+            .collect(Collectors.toSet());
 
-        user.setRoles(userRoles);
+    user.setRoles(userRoles);
 
-        return user;
+    return user;
+  }
+
+  private ResponseEntity<?> validateSignupRequest(SignupRequest signUpRequest) {
+    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+      return ResponseEntity.badRequest()
+          .body(new MessagePayload("Error: Username is already taken!"));
     }
-
-    private ResponseEntity<?> validateSignupRequest(SignupRequest signUpRequest){
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                .badRequest()
-                .body(new MessagePayload("Error: Username is already taken!"));
-        }
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                .badRequest()
-                .body(new MessagePayload("Error: Email is already in use!"));
-        }
-        return null;
+    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+      return ResponseEntity.badRequest()
+          .body(new MessagePayload("Error: Email is already in use!"));
     }
+    return null;
+  }
 }

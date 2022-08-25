@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MessagePayload {
-    private String message;
+  private String message;
 
-    public MessagePayload(String message) {
-        this.message = message;
-    }
+  public MessagePayload(String message) {
+    this.message = message;
+  }
 }
