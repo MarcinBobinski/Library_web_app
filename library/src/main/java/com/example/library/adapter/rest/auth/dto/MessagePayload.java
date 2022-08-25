@@ -1,4 +1,4 @@
-package com.example.library.adapter.rest.Auth.dto;
+package com.example.library.adapter.rest.auth.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.example.library.security.service;
 
-import com.example.library.adapter.postgresql.Auth.User;
-import com.example.library.adapter.postgresql.Auth.UserRepository;
+import com.example.library.adapter.postgresql.auth.User;
+import com.example.library.adapter.postgresql.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.example.library.adapter.rest.Auth.dto;
+package com.example.library.adapter.rest.auth.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.example.library.adapter.postgresql.Auth;
+package com.example.library.adapter.postgresql.auth;
 
 import java.util.HashSet;
 import java.util.Objects;

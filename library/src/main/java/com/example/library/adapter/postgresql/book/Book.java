@@ -1,4 +1,4 @@
-package com.example.library.adapter.postgresql.Book;
+package com.example.library.adapter.postgresql.book;
 
 import java.util.Objects;
 import javax.persistence.Column;

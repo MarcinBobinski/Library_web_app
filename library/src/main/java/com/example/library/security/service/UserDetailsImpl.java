@@ -1,6 +1,6 @@
 package com.example.library.security.service;
 
-import com.example.library.adapter.postgresql.Auth.User;
+import com.example.library.adapter.postgresql.auth.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.List;

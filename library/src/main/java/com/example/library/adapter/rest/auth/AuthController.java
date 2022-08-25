@@ -1,14 +1,14 @@
-package com.example.library.adapter.rest.Auth;
+package com.example.library.adapter.rest.auth;
 
-import com.example.library.adapter.postgresql.Auth.ERole;
-import com.example.library.adapter.postgresql.Auth.Role;
-import com.example.library.adapter.postgresql.Auth.RoleRepository;
-import com.example.library.adapter.postgresql.Auth.User;
-import com.example.library.adapter.postgresql.Auth.UserRepository;
-import com.example.library.adapter.rest.Auth.dto.JwtPayload;
-import com.example.library.adapter.rest.Auth.dto.LoginRequest;
-import com.example.library.adapter.rest.Auth.dto.MessagePayload;
-import com.example.library.adapter.rest.Auth.dto.SignupRequest;
+import com.example.library.adapter.postgresql.auth.ERole;
+import com.example.library.adapter.postgresql.auth.Role;
+import com.example.library.adapter.postgresql.auth.RoleRepository;
+import com.example.library.adapter.postgresql.auth.User;
+import com.example.library.adapter.postgresql.auth.UserRepository;
+import com.example.library.adapter.rest.auth.dto.JwtPayload;
+import com.example.library.adapter.rest.auth.dto.LoginRequest;
+import com.example.library.adapter.rest.auth.dto.MessagePayload;
+import com.example.library.adapter.rest.auth.dto.SignupRequest;
 import com.example.library.security.jwt.JwtUtils;
 import com.example.library.security.service.UserDetailsImpl;
 import java.util.Arrays;
@@ -117,5 +117,22 @@ public class AuthController {
           .body(new MessagePayload("Error: Email is already in use!"));
     }
     return null;
+  }
+
+  @PostMapping("/test1")
+  public ResponseEntity<?> all() {
+      return ResponseEntity.ok("ok");
+  }
+
+  @PreAuthorize("hasRole('USER')")
+  @PostMapping("/test2")
+  public ResponseEntity<?> user() {
+      return ResponseEntity.ok("ok");
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping("/test3")
+  public ResponseEntity<?> admin() {
+      return ResponseEntity.ok("ok");
   }
 }
