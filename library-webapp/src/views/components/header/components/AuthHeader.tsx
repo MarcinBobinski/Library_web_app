@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Group, Button, Menu} from "@mantine/core";
 import {observer} from "mobx-react";
-import {useStore} from "../../../../context/store.context";
+import {useStore} from "../../../../store/store.context";
 import {IconLogout, IconUser, IconUserCircle} from "@tabler/icons";
 import {LoginModal} from "../modal/LoginModal";
 import {RegisterModal} from "../modal/RegisterModal";
