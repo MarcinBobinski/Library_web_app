@@ -1,7 +1,9 @@
 package com.example.library.adapter.postgresql.book;
 
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +13,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 
 @Getter
 @Setter
@@ -27,16 +28,8 @@ public class Book {
   @Column(name = "title")
   private String title;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    Book book = (Book) o;
-    return id != null && Objects.equals(id, book.id);
-  }
+  private String description;
 
-  @Override
-  public int hashCode() {
-    return getClass().hashCode();
-  }
+    @ElementCollection
+    private Set<Long> images = new HashSet<>();
 }

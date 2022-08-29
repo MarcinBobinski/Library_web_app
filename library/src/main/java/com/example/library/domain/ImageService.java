@@ -15,8 +15,12 @@ public class ImageService {
         return imageRepository.save(image).getId();
     }
 
-    public byte[] fetchImage(Long id) throws Exception {
-        return imageRepository.findById(id).orElseThrow(Exception::new).getContent();
+    public Image fetchImage(Long id) throws Exception {
+        return imageRepository.findById(id).orElseThrow(Exception::new);
+    }
+
+    public byte[] fetchImageContent(Long id) throws Exception {
+        return fetchImage(id).getContent();
     }
 
     public void deleteImage(Long id){

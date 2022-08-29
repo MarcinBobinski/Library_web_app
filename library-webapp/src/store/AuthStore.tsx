@@ -1,7 +1,7 @@
 import React from "react";
-import {makeAutoObservable, runInAction} from "mobx";
-import {fetchCredentials} from "../api/Auth/FetchCredentials";
-import {registerUser} from "../api/Auth/Register";
+import {action, computed, makeAutoObservable, makeObservable, observable, runInAction} from "mobx";
+import {fetchCredentials} from "../api/auth/FetchCredentials";
+import {registerUser} from "../api/auth/Register";
 
 interface AuthCredentials {
   token: string
@@ -17,7 +17,14 @@ export class AuthStore {
   credentials: AuthCredentials | null = null;
 
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      credentials: observable,
+      login: action,
+      logout: action,
+      registerUser: action,
+      isAuthenticated: action,
+      isAdmin: action
+    });
     runInAction(()=>{
       const credentials = localStorage.getItem(localStorageCredentialsKey)
       if(credentials == null){
@@ -46,7 +53,7 @@ export class AuthStore {
     return Promise.resolve( this.credentials != null);
   }
 
-  async logout(): Promise<void>{
+  logout(): void{
     runInAction(()=>{
       this.credentials = null;
     })
@@ -60,5 +67,9 @@ export class AuthStore {
 
   isAuthenticated(): boolean {
     return this.credentials != null;
+  }
+
+  isAdmin(): boolean{
+    return  ({...this.credentials}.roles || []).includes("ROLE_ADMIN");
   }
 }

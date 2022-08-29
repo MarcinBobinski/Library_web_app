@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { NotificationsProvider } from '@mantine/notifications';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {MantineProviderWrapper} from "./infrastructure/MantineProviderWrapper";
+import {StoreProvider} from "./store/store.context";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +14,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <MantineProviderWrapper>
+      <StoreProvider>
         <App/>
+      </StoreProvider>
     </MantineProviderWrapper>
   </React.StrictMode>
 );

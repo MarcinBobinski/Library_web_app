@@ -17,6 +17,8 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+//    @Type(type = "org.hibernate.type.ImageType")
+//    @Type(type = "org.hibernate.type.PrimitiveByteArrayBlobType")
     @Lob
     @Column(name = "content")
     byte[] content;
