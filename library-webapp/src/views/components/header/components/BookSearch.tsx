@@ -1,8 +1,10 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {Group, Button, Autocomplete} from "@mantine/core";
+import {Group, Button, Autocomplete, AutocompleteItem, Text} from "@mantine/core";
 import {observer} from "mobx-react";
 import {useStore} from "../../../../store/store.context";
-import {useDebouncedValue} from "@mantine/hooks";
+import {getHotkeyHandler, useDebouncedValue} from "@mantine/hooks";
+import {useNavigate} from "react-router-dom";
+import {IconSearch} from "@tabler/icons";
 
 type HintItem = {
   value: string
@@ -11,6 +13,7 @@ type HintItem = {
 
 const BookSearchView = () => {
   const { bookStore } = useStore()
+  const navigate = useNavigate()
 
   const [value, setValue] = useState('');
   const [hints, setHints] = useState([] as HintItem[]);
@@ -28,9 +31,29 @@ const BookSearchView = () => {
       .then((items) => {setHints(items)})
   },[debounced])
 
+  const onItemSubmit = (item: HintItem) => {
+    navigate(`/book/${item.id}`)
+  }
+
+  const onNotItemSubmit = ()=>{
+
+  }
+
   return (
     <Group>
-      <Autocomplete value={value} onChange={setValue} data={hints}/>
+      <Autocomplete
+        value={value}
+        onChange={setValue}
+        data={hints}
+        onItemSubmit={onItemSubmit}
+        radius={"md"}
+        rightSection={<IconSearch onClick={()=>{throw new Error("NOT IMPLEMENTED")}} size={15} />}
+        onKeyUp={
+          getHotkeyHandler([
+            ['Enter', onNotItemSubmit]
+          ])
+        }
+      />
     </Group>
   )
 }
