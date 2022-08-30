@@ -25,9 +25,7 @@ export const LoginModal = ({opened, setOpened, authStore}: LoginModalProps) => {
       }
     })
 
-  useEffect(()=> {
-    form.clearErrors()
-  },[opened])
+  useEffect(()=> {form.clearErrors()},[opened])
 
   const onSubmit = async ({login, password}: {login:string, password:string}) => {
     setLoading(true)
@@ -61,7 +59,6 @@ export const LoginModal = ({opened, setOpened, authStore}: LoginModalProps) => {
           placeholder="Hasło"
           {...form.getInputProps('password')}
         />
-
 
         <Group position={"center"} mt={"md"}>
           <Button type={"submit"}><LoadingOverlay visible={isLoading}/>Zaloguj</Button>

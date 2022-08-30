@@ -28,8 +28,9 @@ public class Book {
   @Column(name = "title")
   private String title;
 
+  @Column(name = "description", columnDefinition = "TEXT")
   private String description;
 
-    @ElementCollection
-    private Set<Long> images = new HashSet<>();
+  @ElementCollection
+  private Set<Long> images = new HashSet<>();
 }

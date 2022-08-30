@@ -26,7 +26,7 @@ const BookListingContentView = () => {
 
       <Space h={"xl"} />
 
-      <Group position={"center"}>
+      <Group position={"center"} hidden={numberOfPages == 1}>
         <Pagination page={activePage} onChange={setPage} total={numberOfPages} siblings={2}/>
       </Group>
     </>
