@@ -12,5 +12,15 @@ import lombok.Setter;
 public class FetchBooksResponse {
     Integer currentPage;
     Integer pages;
-    List<BookResponse> books;
+    List<Book> books;
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public static class Book {
+        private Long id;
+        private String title;
+        private String description;
+        private List<Long> images;
+    }
 }
