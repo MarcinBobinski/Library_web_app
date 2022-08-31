@@ -32,13 +32,13 @@ export const BookDetailsView = () => {
     <AppShell header={<Header/>} footer={<Footer/>}>
       <Group position={"center"}>
         <Stack spacing={"xl"} sx={{width: "70vw", maxWidth: "1200px"}}>
-          <Title order={1}><Text italic weight={700}>{bookCopy.title}</Text></Title>
+          <Title order={1}><Text italic weight={700}>{bookCopy.title}</Text></Title>wypożyczyć książkę z księgarni
 
           <Group noWrap position={"apart"}>
             <Paper shadow="xl" radius="xl" p="lg" withBorder
               sx={(theme) => ({
                 backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
-                width: "40%",
+                width: "45%",
               })}
             >
               <Carousel style={{color: "red"}}>
@@ -53,7 +53,7 @@ export const BookDetailsView = () => {
             <Paper shadow="xl" radius="xl" p="lg" withBorder
                    sx={(theme) => ({
                      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
-                     width: "40%",
+                     width: "45%",
                      height: "100%"
                    })}
             >

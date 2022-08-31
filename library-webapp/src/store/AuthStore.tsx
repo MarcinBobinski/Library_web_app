@@ -1,5 +1,5 @@
 import React from "react";
-import {action, computed, makeAutoObservable, makeObservable, observable, runInAction} from "mobx";
+import {action, makeObservable, observable, runInAction} from "mobx";
 import {fetchCredentials} from "../api/auth/FetchCredentials";
 import {registerUser} from "../api/auth/Register";
 

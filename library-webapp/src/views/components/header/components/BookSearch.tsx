@@ -32,6 +32,7 @@ const BookSearchView = () => {
   },[debounced])
 
   const onItemSubmit = (item: HintItem) => {
+    bookStore.clearLoaded()
     navigate(`/book/${item.id}`)
   }
 
