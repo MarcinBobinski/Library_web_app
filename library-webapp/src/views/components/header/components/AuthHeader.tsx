@@ -5,10 +5,13 @@ import {useStore} from "../../../../store/store.context";
 import {IconLogout, IconUser, IconUserCircle} from "@tabler/icons";
 import {LoginModal} from "../modal/LoginModal";
 import {RegisterModal} from "../modal/RegisterModal";
+import {useNavigate} from "react-router-dom";
 
 const AuthHeaderView =  () => {
   const {authStore} = useStore()
   const credentials = {...authStore.credentials}
+
+  const navigate = useNavigate()
 
   const [registerOpened, registerOpenedSet] = useState(false)
   const [loginOpened, loginOpenedSet] = useState(false)
@@ -20,7 +23,7 @@ const AuthHeaderView =  () => {
           <Button leftIcon={<IconUser size={20}/>}>{credentials.username}</Button>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item icon={<IconUserCircle size={14}/>}>Profil</Menu.Item>
+          <Menu.Item onClick={()=> {navigate("/user")}} icon={<IconUserCircle size={14}/>}>Profil</Menu.Item>
           <Menu.Item
             color={"red"}
             icon={<IconLogout size={14}/>}

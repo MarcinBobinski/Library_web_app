@@ -1,11 +1,15 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {AppShell, Center, Stack, Title} from "@mantine/core";
+import {Header} from "../components/header/Header";
+import {Footer} from "../components/footer/Footer";
 
 export const NotFound = () => {
   return (
-    <div>
-      Not Found Page
-      <Link to={"/"}>HOME</Link>
-    </div>
+    <AppShell
+      header={<Header/>}
+      footer={<Footer/>}
+    >
+      <Title order={1} sx={{height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>PAGE NOT FOUND</Title>
+    </AppShell>
   )
 }
