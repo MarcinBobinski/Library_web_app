@@ -1,6 +1,7 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {AppShell, Text} from "@mantine/core";
+import {AppShell, AspectRatio, Group, Image, Stack, Text, Paper, Title} from "@mantine/core";
+import Carousel from 'react-bootstrap/Carousel';
 import {Header} from "../components/header/Header";
 import {Footer} from "../components/footer/Footer";
 import {Book} from "../../store/BookStore";
@@ -8,34 +9,68 @@ import {observer} from "mobx-react";
 import {useStore} from "../../store/store.context";
 
 export const BookDetailsView = () => {
-  const { id } = useParams();
+  const {id} = useParams();
   const idAsNumber = Number(id)
   const {bookStore} = useStore()
   const [book, setBook] = useState<Book | null>(null)
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     bookStore.clearLoaded()
-  },[])
+  }, [])
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     setBook(bookStore.bookDetailed)
-    if(!isNaN(idAsNumber)){
+    if (!isNaN(idAsNumber)) {
       bookStore.loadBook(idAsNumber);
     }
-  },[bookStore.bookDetailed])
+  }, [bookStore.bookDetailed])
 
   const bookCopy = {...book}
+  const bookImages = (bookCopy.images || []).map((imageId) => `/api/image/${imageId}`)
 
   return (
-    <AppShell
-      header={<Header/>}
-      footer={<Footer/>}
-    >
-      <Text>ID: {bookCopy.id}</Text>
+    <AppShell header={<Header/>} footer={<Footer/>}>
+      <Group position={"center"}>
+        <Stack spacing={"xl"} sx={{width: "70vw", maxWidth: "1200px"}}>
+          <Title order={1}><Text italic weight={700}>{bookCopy.title}</Text></Title>
 
-      <Text>Tytuł: {bookCopy.title}</Text>
-      <Text>Opis: {bookCopy.description}</Text>
-      <Text>Zdjęcia: {bookCopy.images}</Text>
+          <Group noWrap position={"apart"}>
+            <Paper shadow="xl" radius="xl" p="lg" withBorder
+              sx={(theme) => ({
+                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
+                width: "40%",
+              })}
+            >
+              <Carousel style={{color: "red"}}>
+                {bookImages.map((item, index) => (<Carousel.Item key={index}>
+                    <AspectRatio ratio={720 / 1080} mx="auto">
+                      <Image src={item} alt={bookCopy.title} withPlaceholder/>
+                    </AspectRatio>
+                  </Carousel.Item>))}
+              </Carousel>
+            </Paper>
+
+            <Paper shadow="xl" radius="xl" p="lg" withBorder
+                   sx={(theme) => ({
+                     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
+                     width: "40%",
+                     height: "100%"
+                   })}
+            >
+            <Text>Panel wypożyczania</Text>
+            </Paper>
+          </Group>
+
+          <Paper shadow="xl" radius="xl" p="lg" withBorder
+                 sx={(theme) => ({
+                   backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
+                 })}
+          >
+            {bookCopy.description}
+          </Paper>
+
+        </Stack>
+      </Group>
     </AppShell>
   )
 }

@@ -44,7 +44,7 @@ export class BookStore {
 
   loadPage(page: number){
     if(this.booksPaged.get(page) == undefined){
-      fetchBooksPage(page, 10)
+      fetchBooksPage(page, 5)
         .then(action((booksPageResponse) => {
           this.pages = booksPageResponse.pages
           this.booksPaged.set(
@@ -97,29 +97,34 @@ export class BookStore {
   }
 
   async addBook(title: string, description: string, images: number[]): Promise<boolean> {
-    try {
-      const response = await uploadBook(title, description, images)
-      if (response == "unauthorized"){
-        this.authStore.logout()
+    const credentials = {...this.authStore.credentials}
+    if(credentials.token == undefined){
+      return false
+    } else {
+      try {
+        const response = await uploadBook(title, description, images, credentials.token)
+        if (response == "unauthorized"){
+          this.authStore.logout()
+          showNotification({
+            icon: <IconX size={18}/>,
+            title: 'Wylogowanie',
+            message: 'Z powodu błędu autoryzacji zostałeś wylogowany.',
+            color: 'red',
+            autoClose: 5000
+          })
+          return false
+        }
+        return true
+      } catch (e) {
         showNotification({
           icon: <IconX size={18}/>,
-          title: 'Wylogowanie',
-          message: 'Z powodu błędu autoryzacji zostałeś wylogowany.',
+          title: 'Błąd',
+          message: 'Podczas dodawania książki wystąpił nieznany błąd.',
           color: 'red',
           autoClose: 5000
         })
         return false
       }
-      return true
-    } catch (e) {
-      showNotification({
-        icon: <IconX size={18}/>,
-        title: 'Błąd',
-        message: 'Podczas dodawania książki wystąpił nieznany błąd.',
-        color: 'red',
-        autoClose: 5000
-      })
-      return false
     }
   }
 

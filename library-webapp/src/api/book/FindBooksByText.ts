@@ -18,6 +18,6 @@ export const findBooksByText = async (text: string): Promise<BookByTextResponse[
     const responseData: BookByTextResponse[] = await response.data
     return Object.assign(responseData, {fetchedAt: formatDate(new Date())})
   }  catch (e) {
-    return Promise.reject(new Error("Failed to upload image"))
+    return Object.assign([], {fetchedAt: formatDate(new Date())})
   }
 }

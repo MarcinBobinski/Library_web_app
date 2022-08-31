@@ -1,7 +1,7 @@
 import axios from "axios";
 import {formatDate} from "../../common/FormatDate";
 
-export const uploadBook = async (title: string, description: string, images: number[]): Promise<void | "unauthorized"> => {
+export const uploadBook = async (title: string, description: string, images: number[], token: string): Promise<void | "unauthorized"> => {
   try {
     await axios.post("/api/book/add",
       {
@@ -10,7 +10,7 @@ export const uploadBook = async (title: string, description: string, images: num
         images: images
       },
       {
-      headers:{"Content-Type": "application/json"}
+      headers:{"Content-Type": "application/json", Authorization: token}
     })
   }  catch (e) {
     if (axios.isAxiosError(e)) {

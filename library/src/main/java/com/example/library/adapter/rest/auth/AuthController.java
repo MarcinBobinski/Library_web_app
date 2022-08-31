@@ -98,7 +98,7 @@ public class AuthController {
             .map(
                 (role) ->
                     roleRepository
-                        .findByName(ERole.ROLE_ADMIN)
+                        .findByName(role)
                         .orElseThrow(() -> new RuntimeException("Error: Role is not found.")))
             .collect(Collectors.toSet());
 
