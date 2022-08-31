@@ -36,7 +36,7 @@ const BookSearchView = () => {
   }
 
   const onNotItemSubmit = ()=>{
-
+    console.log("Not implemented yet")
   }
 
   return (
@@ -47,7 +47,7 @@ const BookSearchView = () => {
         data={hints}
         onItemSubmit={onItemSubmit}
         radius={"md"}
-        rightSection={<IconSearch onClick={()=>{throw new Error("NOT IMPLEMENTED")}} size={15} />}
+        rightSection={<IconSearch onClick={onNotItemSubmit} size={15} />}
         onKeyUp={
           getHotkeyHandler([
             ['Enter', onNotItemSubmit]
