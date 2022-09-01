@@ -3,21 +3,25 @@ import React from "react";
 import {BookStore} from "./BookStore";
 import {useLocalObservable} from "mobx-react";
 import {ImageStore} from "./ImageStore";
+import {RentStore} from "./RentStore";
 
 interface IStoreContext {
   authStore: AuthStore;
   bookStore: BookStore;
   imageStore: ImageStore;
+  rentStore: RentStore;
 }
 
 const authStore = new AuthStore();
 const bookStore = new BookStore(authStore);
 const imageStore = new ImageStore(authStore)
+const rentStore = new RentStore(authStore)
 
 const rootStore: IStoreContext = {
   authStore,
   bookStore,
-  imageStore
+  imageStore,
+  rentStore
 }
 
 export const StoreContext = React.createContext<IStoreContext | null>(null);
