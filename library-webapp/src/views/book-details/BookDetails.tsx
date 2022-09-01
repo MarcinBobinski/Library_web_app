@@ -7,32 +7,32 @@ import {Footer} from "../components/footer/Footer";
 import {Book} from "../../store/BookStore";
 import {observer} from "mobx-react";
 import {useStore} from "../../store/store.context";
+import {RentPanel} from "./RentPanel";
 
 export const BookDetailsView = () => {
   const {id} = useParams();
   const idAsNumber = Number(id)
-  const {bookStore} = useStore()
+  const {bookStore, authStore} = useStore()
   const [book, setBook] = useState<Book | null>(null)
 
-  useLayoutEffect(() => {
-    bookStore.clearLoaded()
-  }, [])
+  useLayoutEffect(() => { bookStore.clearLoaded() }, [])
 
   useLayoutEffect(() => {
     setBook(bookStore.bookDetailed)
-    if (!isNaN(idAsNumber)) {
-      bookStore.loadBook(idAsNumber);
-    }
+    if (!isNaN(idAsNumber)) { bookStore.loadBook(idAsNumber); }
   }, [bookStore.bookDetailed])
 
   const bookCopy = {...book}
   const bookImages = (bookCopy.images || []).map((imageId) => `/api/image/${imageId}`)
 
+
+  const rentPanel = authStore.isAuthenticated() ? (<Title order={4}><Text>Wypożycz1</Text></Title>) : (<Title order={4}><Text>Wypożycz2</Text></Title>)
+
   return (
     <AppShell header={<Header/>} footer={<Footer/>}>
       <Group position={"center"}>
         <Stack spacing={"xl"} sx={{width: "70vw", maxWidth: "1200px"}}>
-          <Title order={1}><Text italic weight={700}>{bookCopy.title}</Text></Title>wypożyczyć książkę z księgarni
+          <Title order={1}><Text italic weight={700}>{bookCopy.title}</Text></Title>
 
           <Group noWrap position={"apart"}>
             <Paper shadow="xl" radius="xl" p="lg" withBorder
@@ -53,11 +53,17 @@ export const BookDetailsView = () => {
             <Paper shadow="xl" radius="xl" p="lg" withBorder
                    sx={(theme) => ({
                      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
-                     width: "45%",
-                     height: "100%"
+                     width: "45%"
                    })}
             >
-            <Text>Panel wypożyczania</Text>
+              <Stack justify="space-between">
+                <Title order={4}><Text>Wypożycz</Text></Title>
+                {authStore.credentials != null ?
+                  <RentPanel/>
+                  :
+                  <Text>Aby móc wypożyczyć książkę należy być zalogowanym.</Text>
+                }
+              </Stack>
             </Paper>
           </Group>
 

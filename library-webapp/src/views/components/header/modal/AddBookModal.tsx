@@ -11,7 +11,7 @@ import {
   Table
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
-import {IconPhoto, IconUpload, IconX} from "@tabler/icons";
+import {IconCheck, IconPhoto, IconUpload, IconX} from "@tabler/icons";
 import {Dropzone, IMAGE_MIME_TYPE, MIME_TYPES} from "@mantine/dropzone";
 import {showNotification} from "@mantine/notifications";
 import {FileRejection} from "react-dropzone";
@@ -50,8 +50,8 @@ export const AddBookModal = ({opened, setOpened}: AddBookModalProps) => {
     const success = await bookStore.addBook(title, description, imageList.map((element) => element.id))
     if(success){
       showNotification({
-        icon: <IconX size={18}/>,
-        title: 'Błąd ładowania zdjęć',
+        icon: <IconCheck size={18}/>,
+        title: 'Sukces',
         message: `Prawidłowo dodano książkę.`,
         color: 'green',
         autoClose: 5000
