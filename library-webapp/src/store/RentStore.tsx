@@ -22,36 +22,38 @@ export class RentStore {
   }
 
   fetchRents(): void {
-    const credentials = {...this.authStore.credentials}
-    if (credentials.token != undefined) {
-      fetchRents(credentials.token)
-        .then((response) => {
-          if (response == "unauthorized") {
-            this.authStore.logout()
+    if(this.rentedBooks == null){
+      const credentials = {...this.authStore.credentials}
+      if (credentials.token != undefined) {
+        fetchRents(credentials.token)
+          .then((response) => {
+            if (response == "unauthorized") {
+              this.authStore.logout()
+              showNotification({
+                icon: <IconX size={18}/>,
+                title: 'Wylogowanie',
+                message: 'Z powodu błędu autoryzacji zostałeś wylogowany.',
+                color: 'red',
+                autoClose: 5000
+              })
+              return null
+            } else {
+              return response
+            }
+          })
+          .then(action((rents) => {
+            this.rentedBooks = rents
+          }))
+          .catch(() => {
             showNotification({
               icon: <IconX size={18}/>,
-              title: 'Wylogowanie',
-              message: 'Z powodu błędu autoryzacji zostałeś wylogowany.',
+              title: 'Błąd',
+              message: 'W trakcie pobierania wypożyczonych książek wystąpił błąd',
               color: 'red',
               autoClose: 5000
             })
-            return null
-          } else {
-            return response
-          }
-        })
-        .then(action((rents) => {
-          this.rentedBooks = rents
-        }))
-        .catch(() => {
-          showNotification({
-            icon: <IconX size={18}/>,
-            title: 'Błąd',
-            message: 'W trakcie pobierania wypożyczonych książek wystąpił błąd',
-            color: 'red',
-            autoClose: 5000
           })
-        })
+      }
     }
   }
 
@@ -85,6 +87,7 @@ export class RentStore {
           color: 'red',
           autoClose: 5000
         })
+        return Promise.reject(new Error())
       }
     }
   }

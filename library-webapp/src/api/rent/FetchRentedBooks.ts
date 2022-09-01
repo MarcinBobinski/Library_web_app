@@ -12,7 +12,7 @@ export type Rents = {
 
 export const fetchRents = async (token: string): Promise<Rents[] | "unauthorized"> => {
   try {
-    const response = await axios.get(`/api/user-rents`, {
+    const response = await axios.get(`/api/rent/user-rents`, {
       params:{},
       headers:{Accept: "application/json", Authorization: token}
     })
