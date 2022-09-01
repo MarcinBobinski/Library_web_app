@@ -1,5 +1,5 @@
-import React from "react";
-import {AppShell, Group, Paper, Stack, Text, Title, Divider, SimpleGrid} from "@mantine/core";
+import React, {useEffect} from "react";
+import {AppShell, Group, Paper, Stack, Text, Title, Divider, SimpleGrid, Table} from "@mantine/core";
 import {Header} from "../components/header/Header";
 import {Footer} from "../components/footer/Footer";
 import {observer} from "mobx-react";
@@ -7,8 +7,14 @@ import {useStore} from "../../store/store.context";
 
 const UserDetailsView = () => {
 
-  const {authStore} = useStore()
+  const {authStore, rentStore} = useStore()
   const credentials = {...authStore.credentials}
+
+  useEffect(()=>{rentStore.clear()},[])
+
+  useEffect(()=>{rentStore.fetchRents()},[rentStore.rentedBooks])
+
+  // const rows = ({...rentStore.rentedBooks} || []).map(()=>{ return 1;})
 
   return (
     <AppShell
@@ -47,7 +53,17 @@ const UserDetailsView = () => {
                 <Title order={3}>Wypożyczenia</Title>
                 <Divider my="sm" variant="dashed" />
               </Stack>
-
+              <Table>
+                <thead>
+                <tr>
+                  <th>Tytuł</th>
+                  <th>Data wypożyczenia</th>
+                  <th>Data oczekiwanego zwrotu</th>
+                  <th>Data oddania</th>
+                  <th>Oddaj</th>
+                </tr>
+                </thead>
+              </Table>
               <Stack>
               </Stack>
             </Stack>
